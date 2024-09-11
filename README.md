@@ -28,7 +28,7 @@ You can install the Astro Dude app directly from the Play Store:
 
 ## Contributions
 
-Feel free to contribute to the development of Astro Dude! We're open to feedback and ideas for new mini-games, challenges, and features. Reach out through [[Support Contact](programmerdevelops@gmail.com)] or open a pull request on our repository.
+Feel free to contribute to the development of Astro Dude! We're open to feedback and ideas for new mini-games, challenges, and features. Reach out through [programmerdevelops@gmail.com] or open a pull request on our repository.
 
 ## License
 
