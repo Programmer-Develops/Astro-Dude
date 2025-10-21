@@ -1,132 +1,162 @@
-import React, { useState, useEffect } from 'react';
-import { Text, View, TextInput, TouchableOpacity, FlatList, ActivityIndicator, StyleSheet } from 'react-native';
-import { useChat } from './ChatContext';
-import axios from 'axios';
-import { GPT_API_KEY } from '@env';
+import React, { useState } from 'react';
+import { 
+  Text, 
+  View, 
+  TextInput, 
+  TouchableOpacity, 
+  FlatList, 
+  ActivityIndicator, 
+  StyleSheet 
+} from 'react-native';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
 const Chat = () => {
-  const { state, dispatch } = useChat();
+  const [messages, setMessages] = useState([]);
   const [userInput, setUserInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
 
-  const apiEndpoint = 'https://api.openai.com/v1/chat/completions';
-  const apiKey = GPT_API_KEY;
+  const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+  
+  const model = genAI.getGenerativeModel({ 
+    model: 'gemini-2.5-flash',
+    generationConfig: {
+      temperature: 0.7,
+      maxOutputTokens: 1500,
+      topP: 0.8,
+      topK: 40,
+    },
+  });
 
   const sendUserInputToAI = async (userInput) => {
     try {
       setIsTyping(true);
 
-      const response = await axios.post(
-        apiEndpoint,
-        {
-          model: 'gpt-3.5-turbo',
-          messages: [
-            { role: 'system', content: 'You are a helpful assistant.' },
-            { role: 'user', content: userInput },
-          ],
-        },
-        {
-          headers: {
-            'Authorization': `Bearer ${apiKey}`,
-            'Content-Type': 'application/json',
-          },
-        }
-      );
+      const prompt = `You are Astro Dude, a fun and enthusiastic astronomy assistant. Answer briefly and clearly in 2-3 sentences max. Be helpful and engaging.
+      User: ${userInput}`;
+
+      const result = await model.generateContent(prompt);
+      const response = await result.response;
+      const text = response.text();
 
       setIsTyping(false);
+      return text;
 
-      return response.data.choices[0].message.content;
     } catch (error) {
       setIsTyping(false);
-      console.error('Error calling the AI service:', error.response ? error.response.data : error.message);
-      return 'AI service error';
+      console.error('Gemini API Error:', error);
+      
+      if (error.message?.includes('API key')) {
+        return 'API configuration issue. Please check your API key.';
+      } else if (error.message?.includes('network')) {
+        return 'Network error. Please check your internet connection.';
+      } else {
+        return 'Sorry, I encountered an issue. Please try again.';
+      }
     }
   };
 
   const handleUserInput = async () => {
+    if (!userInput.trim()) return;
+
     try {
-      if (!userInput.trim()) {
-        // Don't send empty messages
-        return;
-      }
-
-      // Send user message to the AI service (GPT-3) and receive a response
-      const aiResponse = await sendUserInputToAI(userInput);
-
-      // Dispatch actions to update the chat context state
-      dispatch({ type: 'ADD_USER_MESSAGE', payload: userInput });
-      dispatch({ type: 'ADD_AI_MESSAGE', payload: aiResponse });
-    } catch (error) {
-      console.error('Error handling user input:', error);
-    } finally {
-      // Clear the userInput state
+      const newUserMessage = { text: userInput, type: 'user' };
+      setMessages(prev => [...prev, newUserMessage]);
+      
+      const currentInput = userInput;
       setUserInput('');
+
+      const aiResponse = await sendUserInputToAI(currentInput);
+
+      const newAIMessage = { text: aiResponse, type: 'ai' };
+      setMessages(prev => [...prev, newAIMessage]);
+
+    } catch (error) {
+      console.error('Error:', error);
+      const errorMessage = { 
+        text: 'Sorry, I encountered an unexpected error. Please try again.', 
+        type: 'ai' 
+      };
+      setMessages(prev => [...prev, errorMessage]);
     }
   };
 
-  const renderMessage = ({ item }) => {
-    return (
-      <View style={item.type === 'user' ? styles.userMessageContainer : styles.aiMessageContainer}>
-        {item.type === 'ai' && (
-          <View style={styles.botIconContainer}>
-            <View style={styles.botIconWrapper}>
-              <Text style={styles.botIcon}>🤖</Text>
-            </View>
-            <View style={styles.aiMessageContainer}>
-              <Text style={styles.botName}>ASTRO DUDE</Text>
-              <Text style={styles.aiMessage}>
-                {item.text}
-              </Text>
-            </View>
-          </View>
-        )}
-  
-        {item.type === 'user' && (
-          <View style={styles.userMessageContainer}>
-
-            <View style={styles.userMessageWrapper}>
-              <Text style={styles.userMessage}>{item.text}</Text>
-            </View>
-
-            <View style={styles.userIconWrapper}>
-              <Text style={styles.userIcon}>👤</Text>
-              {/* <Text style={styles.userName}>You</Text> */}
-            </View>
-            
-          </View>
-        )}
-      </View>
-    );
+  const clearChat = () => {
+    setMessages([]);
   };
+
+  const renderMessage = ({ item }) => (
+    <View style={item.type === 'user' ? styles.userMessageContainer : styles.aiMessageContainer}>
+      
+      {item.type === 'ai' && (
+        <View style={styles.botIconContainer}>
+          <View style={styles.botIconWrapper}>
+            <Text style={styles.botIcon}>🚀</Text>
+          </View>
+          <View style={styles.aiMessageWrapper}>
+            <Text style={styles.botName}>ASTRO DUDE</Text>
+            <Text style={styles.aiMessage}>{item.text}</Text>
+          </View>
+        </View>
+      )}
+
+      {item.type === 'user' && (
+        <View style={styles.userInnerContainer}>
+          <View style={styles.userMessageWrapper}>
+            <Text style={styles.userMessage}>{item.text}</Text>
+          </View>
+          <View style={styles.userIconWrapper}>
+            <Text style={styles.userIcon}>👤</Text>
+          </View>
+        </View>
+      )}
+    </View>
+  );
 
   return (
     <View style={styles.container}>
+      {/* Header */}
+      <View style={styles.header}>
+        <Text style={styles.headerTitle}>Astro Dude</Text>
+        <Text style={styles.headerSubtitle}>Your Space & Astronomy Assistant</Text>
+        <TouchableOpacity onPress={clearChat} style={styles.clearButton}>
+          <Text style={styles.clearButtonText}>Clear Chat</Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* Chat Messages */}
       <FlatList
-        data={state.messages}
+        data={messages}
         renderItem={renderMessage}
-        keyExtractor={(item, index) => index.toString()}
+        keyExtractor={(item, index) => `message-${index}`}
         showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.flatListContent}
       />
+      
+      {/* Typing Indicator */}
       {isTyping && (
         <View style={styles.typingIndicator}>
-          <ActivityIndicator size="small" color="#FFFFFF" />
-          <Text style={{ color: '#FFFFFF', marginLeft: 8 }}>Typing...</Text>
+          <ActivityIndicator size="small" color="#4CAF50" />
+          <Text style={styles.typingText}>Astro Dude is thinking...</Text>
         </View>
       )}
+      
+      {/* Input Area */}
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
           value={userInput}
-          onChangeText={(text) => setUserInput(text)}
-          placeholder="Type a message..."
-          placeholderTextColor="#B0B0B0"
+          onChangeText={setUserInput}
+          placeholder="Ask about space, stars, planets..."
+          placeholderTextColor="#888"
+          multiline
+          maxLength={500}
         />
         <TouchableOpacity
           onPress={handleUserInput}
-          style={[styles.sendButton, { opacity: userInput.trim() ? 1 : 0.2 }]}
-          disabled={!userInput.trim()}
+          style={[styles.sendButton, { opacity: userInput.trim() && !isTyping ? 1 : 0.5 }]}
+          disabled={!userInput.trim() || isTyping}
         >
-          <Text style={styles.sendButtonText}>➔</Text>
+          <Text style={styles.sendButtonText}>↑</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -134,116 +164,160 @@ const Chat = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-    backgroundColor: '#1E1E1E', // Dark background color
-  },
-  userMessageContainer: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    width:'100%'
-  },
-  aiMessageContainer: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-  },
-  userMessage: {
-    backgroundColor: '#3A3A3A',
-    padding: 8,
-    borderRadius: 8,
-    marginBottom: 8,
-    alignSelf: 'flex-end',
-    color: '#FFFFFF',
-  },
-  aiMessage: {
-    backgroundColor: '#2C2C2C',
-    padding: 8,
-    borderRadius: 8,
-    marginBottom: 8,
-    color: '#FFFFFF',
-    // maxWidth: '70%', // Adjust the maximum width based on your design
-    alignSelf: 'flex-start', // Align to the left side
-
-  },
-  aiMessageContainer:{
-    width :'90%'
-  },
-  
-  inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 8,
-  },
-  input: {
-    flex: 1,
-    borderWidth: 1,
-    borderColor: '#555555',
-    borderRadius: 8,
-    padding: 8,
-    marginRight: 8,
-    color: '#FFFFFF',
-  },
-  sendButton: {
-    backgroundColor: 'white',
-    borderRadius: 8,
-    paddingVertical: 8,
+  container: { 
+    flex: 1, 
+    backgroundColor: '#0F0F23',
     paddingHorizontal: 16,
+    paddingTop: 60,
   },
-  sendButtonText: {
-    color: 'black',
+  header: {
+    alignItems: 'center',
+    marginBottom: 20,
+    paddingBottom: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: '#2A2A4A',
+  },
+  headerTitle: {
+    color: '#FFFFFF',
+    fontSize: 28,
+    fontWeight: 'bold',
+    marginBottom: 4,
+  },
+  headerSubtitle: {
+    color: '#888',
+    fontSize: 14,
+    marginBottom: 10,
+  },
+  clearButton: {
+    backgroundColor: '#FF4757',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 16,
+  },
+  clearButtonText: {
+    color: '#FFFFFF',
+    fontSize: 12,
     fontWeight: 'bold',
   },
-  typingIndicator: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 8,
+  flatListContent: {
+    paddingBottom: 20,
   },
-  botIconContainer: {
+  userMessageContainer: { 
+    flexDirection: 'row', 
+    justifyContent: 'flex-end', 
+    marginBottom: 16,
+  },
+  aiMessageContainer: { 
+    flexDirection: 'row', 
+    justifyContent: 'flex-start',
+    marginBottom: 16,
+  },
+  userInnerContainer: {
     flexDirection: 'row',
-    marginRight: 10,
+    alignItems: 'flex-end',
+    maxWidth: '80%',
+  },
+  userMessageWrapper: { 
+    marginRight: 8,
+  },
+  userMessage: { 
+    backgroundColor: '#2A4A6A', 
+    padding: 12, 
+    borderRadius: 16, 
+    color: '#FFFFFF',
+    fontSize: 16,
+    borderBottomRightRadius: 4,
+  },
+  aiMessageWrapper: { 
+    maxWidth: '85%',
+  },
+  aiMessage: { 
+    backgroundColor: '#1A1A2E', 
+    padding: 12, 
+    borderRadius: 16, 
+    color: '#FFFFFF',
+    fontSize: 16,
+    borderBottomLeftRadius: 4,
+    borderWidth: 1,
+    borderColor: '#2A2A4A',
+  },
+  botIconContainer: { 
+    flexDirection: 'row', 
     alignItems: 'flex-start',
-    paddingRight: 5,
   },
-  botIconWrapper: {
-    backgroundColor: '#4CAF50', // Green color
-    borderRadius: 50,
-    padding: 8,
-    marginBottom: 4,
-  },
-  botIcon: {
-    fontSize: 20,
-    color: 'white',
-  },
-  botName: {
-    color: '#B0B0B0',
-    fontSize: 10,
-    marginBottom: 4,
-  },
-  userMessageWrapper: {
-    flex: 1, // Ensure the user message takes up remaining space
-    marginRight: 20, // Add some margin to the right of the user message container
-    marginBottom: 10, // Add some margin at the bottom to create a gap
-  },
-  userIconWrapper: {
-    flexDirection: 'row',
+  botIconWrapper: { 
+    backgroundColor: '#4CAF50', 
+    borderRadius: 20, 
+    width: 36,
+    height: 36,
+    justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'white',
-    borderRadius: 50,
-    padding: 8,
-    marginBottom: 4,
-    marginRight: 5,
-    justifyContent: 'flex-end', // Align to the right
+    marginRight: 8,
   },
-  userIcon: {
-    fontSize: 20,
-    color: 'white',
-    marginRight: 5, // Add some margin to separate the icon and text
+  botIcon: { 
+    fontSize: 16,
   },
-  userName: {
-    color: 'black',
-    fontSize: 10,
+  botName: { 
+    color: '#4CAF50', 
+    fontSize: 12, 
     marginBottom: 4,
+    fontWeight: 'bold',
+  },
+  userIconWrapper: { 
+    backgroundColor: '#2A4A6A', 
+    borderRadius: 20, 
+    width: 36,
+    height: 36,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  userIcon: { 
+    fontSize: 16,
+    color: '#FFF'
+  },
+  inputContainer: { 
+    flexDirection: 'row', 
+    alignItems: 'center', 
+    marginBottom: 20,
+    marginTop: 10,
+  },
+  input: { 
+    flex: 1, 
+    borderWidth: 1, 
+    borderColor: '#2A2A4A', 
+    borderRadius: 24, 
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    marginRight: 8, 
+    color: '#FFF',
+    backgroundColor: '#1A1A2E',
+    fontSize: 16,
+    maxHeight: 100,
+  },
+  sendButton: { 
+    backgroundColor: '#4CAF50', 
+    borderRadius: 20, 
+    width: 40,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  sendButtonText: { 
+    color: 'white', 
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  typingIndicator: { 
+    flexDirection: 'row', 
+    alignItems: 'center', 
+    marginBottom: 8,
+    paddingHorizontal: 8,
+  },
+  typingText: { 
+    color: '#4CAF50', 
+    marginLeft: 8,
+    fontSize: 14,
+    fontStyle: 'italic',
   },
 });
 
