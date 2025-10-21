@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Text, View, TextInput, StyleSheet, Platform, StatusBar, SafeAreaView } from 'react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { Text, View, TextInput, StyleSheet, Platform, StatusBar } from 'react-native';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { WebView } from 'react-native-webview'; // Make sure to install this package
 
 export default class StarMapScreen extends Component {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import {Text,View,TouchableOpacity,StyleSheet, Platform,SafeAreaView} from 'react-native'
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import {Text,View,TouchableOpacity,StyleSheet, Platform} from 'react-native'
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 export default class Game extends Component {
     render() {

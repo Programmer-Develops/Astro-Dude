@@ -25,7 +25,7 @@ const tabIcons = {
 function HomeStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="Home" component={HomeScreen} options={{headerShown: false}}/>
       <Stack.Screen name="Meteors" component={MeteorScreen} />
       <Stack.Screen name="DailyPic" component={DailyPicScreen} />
       <Stack.Screen name="StarMap" component={StarMapScreen} />

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Text, View, Alert, FlatList, Image, ImageBackground, StyleSheet, SafeAreaView, Platform, StatusBar } from 'react-native';
+import { Text, View, Alert, FlatList, Image, ImageBackground, StyleSheet, Platform, StatusBar } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import axios from 'axios';
 

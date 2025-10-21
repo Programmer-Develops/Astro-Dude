@@ -9,10 +9,10 @@ import {
   Alert,
   Platform,
   StatusBar,
-  SafeAreaView,
   Linking,
   ScrollView,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import axios from 'axios';
 

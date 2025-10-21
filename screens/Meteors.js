@@ -3,7 +3,6 @@ import {
   Text,
   View,
   Alert,
-  SafeAreaView,
   StyleSheet,
   Platform,
   StatusBar,
@@ -12,6 +11,7 @@ import {
   Image,
   Dimensions
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import axios from 'axios';
 
 export default class MeteorScreen extends Component {
