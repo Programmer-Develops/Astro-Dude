@@ -1,4 +1,6 @@
 # Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
+# Keep native_modules.gradle for EAS builds
+!node_modules/@react-native-community/cli-platform-android/native_modules.gradle
 
 # dependencies
 node_modules/
@@ -37,3 +39,4 @@ yarn-error.*
 
 package-lock.json
 app.json
+
