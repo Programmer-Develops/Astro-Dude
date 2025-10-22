@@ -6,7 +6,8 @@ buildscript {
         minSdkVersion = Integer.parseInt(findProperty('android.minSdkVersion') ?: '23')
         compileSdkVersion = Integer.parseInt(findProperty('android.compileSdkVersion') ?: '34')
         targetSdkVersion = Integer.parseInt(findProperty('android.targetSdkVersion') ?: '34')
-        kotlinVersion = findProperty('android.kotlinVersion') ?: '1.8.10'
+    // Bump kotlinVersion to a newer patch that is compatible with expo-modules-core
+    kotlinVersion = findProperty('android.kotlinVersion') ?: '1.8.22'
 
         ndkVersion = "25.1.8937393"
     }
@@ -15,8 +16,11 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath('com.android.tools.build:gradle')
+    // Android Gradle Plugin (AGP) - pin a version compatible with Gradle 8.3
+    classpath('com.android.tools.build:gradle:8.3.0')
         classpath('com.facebook.react:react-native-gradle-plugin')
+        // Kotlin Gradle plugin required to compile Kotlin sources in some Expo modules
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
     }
 }
 
