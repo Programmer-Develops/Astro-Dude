@@ -9,14 +9,15 @@ import {
   StyleSheet 
 } from 'react-native';
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { Config } from './config';
 
 const Chat = () => {
   const [messages, setMessages] = useState([]);
   const [userInput, setUserInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  // const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+  const genAI = new GoogleGenerativeAI(Config.GEMINI_API_KEY);
 
-  const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-  
   const model = genAI.getGenerativeModel({ 
     model: 'gemini-2.5-flash',
     generationConfig: {

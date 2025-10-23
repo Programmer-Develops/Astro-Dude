@@ -39,4 +39,4 @@ yarn-error.*
 
 package-lock.json
 app.json
-
+config.js
