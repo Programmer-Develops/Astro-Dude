@@ -4,6 +4,7 @@
   },
   "build": {
     "preview": {
+      "env": {},
       "android": {
         "buildType": "apk"
       },
@@ -12,6 +13,7 @@
       }
     },
     "production": {
+      "env": {},
       "android": {
         "buildType": "app-bundle"
       },
