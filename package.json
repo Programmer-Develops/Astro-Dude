@@ -22,6 +22,7 @@
     "axios": "^1.6.6",
     "babel-preset-expo": "~54.0.0",
     "expo": "^54.0.18",
+    "expo-constants": "^18.0.10",
     "expo-modules-core": "^3.0.22",
     "expo-status-bar": "~3.0.8",
     "react": "19.1.0",
