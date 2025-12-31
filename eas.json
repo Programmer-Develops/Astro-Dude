@@ -1,24 +1,25 @@
 {
   "cli": {
-    "version": ">= 2.0.0"
+    "version": ">= 8.0.0",
+    "appVersionSource": "local"
   },
   "build": {
     "preview": {
-      "env": {},
       "android": {
         "buildType": "apk"
       },
-      "ios": {
-        "simulator": true 
+      "autoIncrement": true,
+      "env": {
+        "EXPO_PREBUILD_NON_INTERACTIVE": "true"
       }
     },
     "production": {
-      "env": {},
       "android": {
         "buildType": "app-bundle"
       },
-      "ios": {
-        "simulator": false
+      "autoIncrement": true,
+      "env": {
+        "EXPO_PREBUILD_NON_INTERACTIVE": "true"
       }
     }
   }
