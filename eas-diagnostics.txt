@@ -1,0 +1,17 @@
+
+  EAS CLI 16.28.0 environment info:
+    System:
+      OS: Windows 11 10.0.26200
+    Binaries:
+      Node: 22.14.0 - C:\Program Files\nodejs\node.EXE
+      npm: 10.9.2 - C:\Program Files\nodejs\npm.CMD
+    Utilities:
+      Git: 2.49.0.
+    npmPackages:
+      expo: ^54.0.18 => 54.0.18 
+      react: 19.1.0 => 19.1.0 
+      react-dom: 19.1.0 => 19.1.0 
+      react-native: 0.81.4 => 0.81.4 
+      react-native-web: ^0.21.0 => 0.21.1
+    Project workflow: managed
+
