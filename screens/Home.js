@@ -51,13 +51,13 @@ const HomeScreen = ({ navigation }) => {
       route: "Meteors",
       color: "#FF9800",
     },
-    {
-      title: "Daily Space Pics",
-      subtitle: "NASA's astronomy picture of the day",
-      icon: "🖼️",
-      route: "DailyPic",
-      color: "#2196F3",
-    },
+    // {
+    //   title: "Daily Space Pics",
+    //   subtitle: "NASA's astronomy picture of the day",
+    //   icon: "🖼️",
+    //   route: "DailyPic",
+    //   color: "#2196F3",
+    // },
     {
       title: "Star Map",
       subtitle: "Explore the night sky",
@@ -134,12 +134,13 @@ const styles = StyleSheet.create({
   },
   header: {
     alignItems: "center",
-    paddingVertical: 30,
+    paddingVertical: 20,
     paddingHorizontal: 20,
     backgroundColor: "#1A1A2E",
     borderBottomLeftRadius: 30,
     borderBottomRightRadius: 30,
     marginBottom: 1,
+    top: -100
   },
   logo: {
     width: 120,
@@ -177,7 +178,7 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     padding: 16,
     borderLeftWidth: 4,
-    shadowColor: "#000",
+    shadowColor: "#000000ff",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -225,7 +226,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   footer: {
-    padding: 20,
+    padding: 10,
     alignItems: "center",
     borderTopWidth: 1,
     borderTopColor: "#2A2A4A",

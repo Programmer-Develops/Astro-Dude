@@ -43,14 +43,14 @@ export default class MeteorScreen extends Component {
       size = 200;
     }
     return (
-      <View>
+      <View style={styles.listContainer}>
         <ImageBackground source={bgimage} style={styles.backgroundImage}>
           <View style={styles.gifContainer}>
             <Image
               source={speed}
               style={{ width: size, height: size, alignSelf: 'center' }}
             />
-            <View>
+            <View style={styles.meteorDataContainer}>
               <Text
                 style={[styles.cardTitle, { marginTop: 400, marginLeft: 50 }]}>
                 {item.name}
@@ -150,15 +150,16 @@ export default class MeteorScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#0F0F23',
   },
   droidSafeArea: {
     marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
   backgroundImage: {
     flex: 1,
-    resizeMode: 'cover',
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height,
+    // resizeMode: 'cover',
+    // width: Dimensions.get('window').width,
+    // height: Dimensions.get('window').height,
   },
   titleBar: {
     flex: 0.15,
@@ -199,9 +200,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
+    bottom: -8,
   },
   meteorDataContainer: {
     justifyContent: 'center',
     alignItems: 'center',
+    top: -90,
+    right: 10,
   },
 });
