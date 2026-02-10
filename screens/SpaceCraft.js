@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, Alert, FlatList, Image, ImageBackground, StyleSheet, Platform, StatusBar } from 'react-native';
+import { Text, View, Alert, FlatList, Image, ImageBackground, StyleSheet, Platform, StatusBar, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import axios from 'axios';
@@ -55,7 +55,8 @@ export default class SpaceCraftsScreen extends Component {
             return (
                 <View
                     style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-                    <Text>Loading</Text>
+                    {/* <Text>Loading</Text> */}
+                    <ActivityIndicator size="large" color="#0000ff" />
                 </View>
             )
         } else {
@@ -74,8 +75,6 @@ export default class SpaceCraftsScreen extends Component {
                                 initialNumToRender={10}
                             />
                         </View>
-
-
 
                     </ImageBackground>
                 </View>

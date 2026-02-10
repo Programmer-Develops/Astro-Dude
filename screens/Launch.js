@@ -74,7 +74,7 @@ const LaunchScreen = () => {
       <SafeAreaProvider>
         <SafeAreaView style={styles.container}>
           <ActivityIndicator size="large" color="#0000ff" />
-          <Text>Loading launches...</Text>
+          {/* <Text>Loading launches...</Text> */}
         </SafeAreaView>
       </SafeAreaProvider>
     );
@@ -100,6 +100,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#f5f5f5',
     padding: 10,
+    justifyContent: 'center',
   },
   title: {
     fontSize: 24,

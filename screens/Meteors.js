@@ -9,7 +9,8 @@ import {
   FlatList,
   ImageBackground,
   Image,
-  Dimensions
+  Dimensions,
+  ActivityIndicator,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import axios from 'axios';
@@ -112,7 +113,8 @@ export default class MeteorScreen extends Component {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <Text>Loading</Text>
+          {/* <Text>Loading</Text> */}
+          <ActivityIndicator size="large" color="#0000ff" />
         </View>
       );
     } else {
