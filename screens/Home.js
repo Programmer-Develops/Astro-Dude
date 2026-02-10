@@ -59,6 +59,13 @@ const HomeScreen = ({ navigation }) => {
     //   color: "#2196F3",
     // },
     {
+      title: "Upcoming Launches",
+      subtitle: "Stay updated with space launches",
+      icon: "🚀",
+      route: "Launch",
+      color: "#F44336",
+    },
+    {
       title: "Star Map",
       subtitle: "Explore the night sky",
       icon: "🌌",

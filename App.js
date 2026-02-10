@@ -8,7 +8,8 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Chat from './screens/Chat';
 import MeteorScreen from './screens/Meteors';
 import HomeScreen from './screens/Home';
-import DailyPicScreen from './screens/DailyPic';
+// import DailyPicScreen from './screens/DailyPic';
+import LaunchScreen from './screens/Launch';
 import StarMapScreen from './screens/StarMap';
 import SpaceCraftsScreen from './screens/SpaceCraft';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -27,9 +28,10 @@ function HomeStack() {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Home" component={HomeScreen} options={{headerShown: false}}/>
       <Stack.Screen name="Meteors" component={MeteorScreen} />
-      <Stack.Screen name="DailyPic" component={DailyPicScreen} />
+      {/* <Stack.Screen name="DailyPic" component={DailyPicScreen} /> */}
       <Stack.Screen name="StarMap" component={StarMapScreen} />
       <Stack.Screen name="SpaceCraft" component={SpaceCraftsScreen} />
+      <Stack.Screen name="Launch" component={LaunchScreen} />
     </Stack.Navigator>
   );
 }
