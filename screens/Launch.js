@@ -11,7 +11,7 @@ const LaunchScreen = () => {
   const fetchLaunches = async () => {
     try {
       const response = await axios.get('https://ll.thespacedevs.com/2.2.0/launch/upcoming/');
-      setLaunches(response.data.results.slice(0, 10)); // Limit to first 10 for performance
+      setLaunches(response.data.results.slice(0, 10)); // Limiting to first 10 launches for performance
       setLoading(false);
     } catch (error) {
       Alert.alert('Error', 'Failed to fetch launch data');
@@ -39,13 +39,13 @@ const LaunchScreen = () => {
 
   useEffect(() => {
     fetchLaunches();
-    const interval = setInterval(fetchLaunches, 60000); // Refresh every minute
+    const interval = setInterval(fetchLaunches, 60000); 
     return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
     updateCountdowns();
-    const countdownInterval = setInterval(updateCountdowns, 60000); // Update countdowns every minute
+    const countdownInterval = setInterval(updateCountdowns, 60000); 
     return () => clearInterval(countdownInterval);
   }, [launches]);
 
@@ -98,7 +98,7 @@ const LaunchScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#0F0F23',
     padding: 10,
     justifyContent: 'center',
   },
@@ -107,13 +107,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 20,
-    color: '#333',
+    color: '#FFFFFF',
   },
   launchCard: {
-    backgroundColor: '#fff',
+    backgroundColor: '#1A1A2E',
     borderRadius: 10,
     marginBottom: 15,
-    shadowColor: '#000',
+    shadowColor: '#fff',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 5,
@@ -132,11 +132,11 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 5,
-    color: '#333',
+    color: '#FFFFFF',
   },
   launchDetail: {
     fontSize: 14,
-    color: '#666',
+    color: '#CCCCCC',
     marginBottom: 3,
   },
   countdown: {
