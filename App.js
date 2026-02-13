@@ -14,6 +14,7 @@ import StarMapScreen from './screens/StarMap';
 import SpaceCraftsScreen from './screens/SpaceCraft';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ChatIcon from './ChatIcon';
+import AstroRunner from './screens/games/AstroRun';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -32,6 +33,7 @@ function HomeStack() {
       <Stack.Screen name="StarMap" component={StarMapScreen} />
       <Stack.Screen name="SpaceCraft" component={SpaceCraftsScreen} />
       <Stack.Screen name="Launch" component={LaunchScreen} />
+      <Stack.Screen name = "AstroGame" component={AstroRunner} />
     </Stack.Navigator>
   );
 }

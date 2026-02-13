@@ -11,6 +11,12 @@ export default class Game extends Component {
                     <View style={styles.container2}>
                         <Text style={styles.titleText}>Coming Soon</Text>
                     </View>
+                    <View style={styles.gameContainer}>
+                        <Text style={styles.routeText}>Astro Runner</Text>
+                        <TouchableOpacity style={styles.knowMore} onPress = {()=>this.props.navigation.navigate("AstroGame")}>
+                            <Text style={styles.knowMore}>Play</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </SafeAreaProvider>
         )
@@ -27,7 +33,6 @@ const styles = StyleSheet.create({
       alignItems: "center",
       paddingTop: 20,
       marginTop:'20%'
-      
     },
     droidSafeArea: {
       marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
@@ -48,5 +53,10 @@ const styles = StyleSheet.create({
     knowMore: {
       marginTop: 10,
       color: "#007BFF", // Blue text color
+    },
+    gameContainer: {
+      flex: 1,
+      alignItems: "center",
+      justifyContent: "center",
     },
   });
