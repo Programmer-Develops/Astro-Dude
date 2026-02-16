@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View, Alert, FlatList, Image, ImageBackground, StyleSheet, Platform, StatusBar, ActivityIndicator } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 import axios from 'axios';
 
@@ -29,9 +29,6 @@ export default class SpaceCraftsScreen extends Component {
             })
 
     }
-
-
-
 
     renderItem = ({ item }) => {
         return (
@@ -62,21 +59,23 @@ export default class SpaceCraftsScreen extends Component {
         } else {
             return (
                 <View style={styles.container}>
-                    <SafeAreaView style={styles.droidSafeArea} />
-                    <ImageBackground source={require('../assets/stars.gif')} style={styles.backgroundImage}>
-                        <View style={{ flex: 0.15, alignItems: 'center', justifyContent: 'center' }}>
-                            <Text style={styles.titleText}>Spacecrafts</Text>
-                        </View>
-                        <View style={{ flex: 0.85 }}>
-                            <FlatList
-                                keyExtractor={this.keyExtractor}
-                                data={this.state.aircrafts}
-                                renderItem={this.renderItem}
-                                initialNumToRender={10}
-                            />
-                        </View>
+                    <SafeAreaProvider>
+                        <SafeAreaView style={styles.droidSafeArea} />
+                        <ImageBackground source={require('../assets/stars.gif')} style={styles.backgroundImage}>
+                            <View style={{ flex: 0.15, alignItems: 'center', justifyContent: 'center' }}>
+                                <Text style={styles.titleText}>Spacecrafts</Text>
+                            </View>
+                            <View style={{ flex: 0.85 }}>
+                                <FlatList
+                                    keyExtractor={this.keyExtractor}
+                                    data={this.state.aircrafts}
+                                    renderItem={this.renderItem}
+                                    initialNumToRender={10}
+                                />
+                            </View>
 
-                    </ImageBackground>
+                        </ImageBackground>
+                    </SafeAreaProvider>
                 </View>
             )
         }

@@ -1,25 +1,26 @@
-import react from 'react';
-import { Text, View, StyleSheet, FlatList, Image, ActivityIndicator, Alert } from 'react-native';
+import react, { Component } from 'react';
+import { Text, View, StyleSheet, Platform, StatusBar, FlatList, Image, ActivityIndicator, Alert } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
-export default AstroRunner = () => {
-    return(
-        <SafeAreaProvider>
-            <SafeAreaView style={styles.droidSafeArea} />
-            <View style={styles.container}>
-                <View style={styles.container2}>
-                    <Text style={styles.titleText}>Astro Runner</Text>
+export default class AstroRunner extends Component {
+    render() {
+        return(
+            <SafeAreaProvider>
+                <SafeAreaView style={styles.droidSafeArea} />
+                <View style={styles.container}>
+                    <View style={styles.container2}>
+                        <Text style={styles.titleText}>Astro Runner</Text>
+                    </View>
+                    <View style={styles.gameContainer}>
+                        <Text style={styles.routeText}>Coming Soon</Text>
+                    </View>
                 </View>
-                <View style={styles.gameContainer}>
-                    <Text style={styles.routeText}>Coming Soon</Text>
-                </View>
-            </View>
-        </SafeAreaProvider>
-    )
+            </SafeAreaProvider>
+        )
+    }
 }
-
-style = StyleSheet.create({
-   droidSafeArea: {
+const styles = StyleSheet.create({
+    droidSafeArea: {
         marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     },
 

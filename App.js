@@ -4,7 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { ChatProvider } from './screens/ChatContext';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import Chat from './screens/Chat';
 import MeteorScreen from './screens/Meteors';
 import HomeScreen from './screens/Home';

@@ -12,7 +12,7 @@ import {
   Dimensions,
   ActivityIndicator,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 import axios from 'axios';
 
 export default class MeteorScreen extends Component {
@@ -44,6 +44,7 @@ export default class MeteorScreen extends Component {
       size = 200;
     }
     return (
+
       <View style={styles.listContainer}>
         <ImageBackground source={bgimage} style={styles.backgroundImage}>
           <View style={styles.gifContainer}>
@@ -135,7 +136,7 @@ export default class MeteorScreen extends Component {
       });
 
       return (
-        <View style={styles.container}>
+        <SafeAreaProvider style={styles.container}>
           <SafeAreaView style={styles.droidSafeArea} />
           <FlatList
             keyExtractor={this.keyExtractor}
@@ -143,7 +144,7 @@ export default class MeteorScreen extends Component {
             renderItem={this.renderItem}
             horizontal={true}
           />
-        </View>
+        </SafeAreaProvider>
       );
     }
   }
@@ -159,9 +160,6 @@ const styles = StyleSheet.create({
   },
   backgroundImage: {
     flex: 1,
-    // resizeMode: 'cover',
-    // width: Dimensions.get('window').width,
-    // height: Dimensions.get('window').height,
   },
   titleBar: {
     flex: 0.15,

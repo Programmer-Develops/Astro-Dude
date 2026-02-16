@@ -11,7 +11,7 @@ import {
   Easing,
   ScrollView,
 } from "react-native";
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 
 const HomeScreen = ({ navigation }) => {
   const [rotationValue] = useState(new Animated.Value(0));
@@ -123,7 +123,6 @@ const HomeScreen = ({ navigation }) => {
         ))}
       </ScrollView>
 
-      {/* Footer */}
       <View style={styles.footer}>
         <Text style={styles.footerText}>Explore the cosmos with Astro Explorer</Text>
       </View>
@@ -147,7 +146,7 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 30,
     borderBottomRightRadius: 30,
     marginBottom: 1,
-    top: -100
+    top: -100,
   },
   logo: {
     width: 120,
@@ -173,9 +172,15 @@ const styles = StyleSheet.create({
   menuContainer: {
     flex: 1,
     paddingHorizontal: 20,
+    paddingBottom: 100,    
+    top: -50,
+    borderTopColor: "#2e2e2e",
+    borderTopWidth: 1,
+    borderBottomColor: "#021360",
+    borderBottomWidth: 1,
   },
   menuContent: {
-    paddingBottom: 20,
+    paddingBottom: 20,   
   },
   menuCard: {
     flexDirection: "row",
