@@ -2,7 +2,7 @@ module.exports = ({ config }) => ({
   ...config,
   name: "Astro Dude",
   slug: "adude",
-  version: "1.0.0",
+  version: "2.0.0",
   android: {
     package: "com.shantanupandya.adude",
     versionCode: 1,
